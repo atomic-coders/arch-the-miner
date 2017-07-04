@@ -6,6 +6,6 @@
 
 - name: restart grafana
   service:
-    name=grafana-server
+    name=grafana
     state=restarted
   become: yes

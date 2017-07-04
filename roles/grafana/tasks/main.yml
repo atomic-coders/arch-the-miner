@@ -3,14 +3,6 @@
 #
 # tasks file
 #
-- include: debug.yml
-  when: debug | default(false)
-  tags: debug
-
-- include: validation.yml
-  tags: validation
-
-
 - name: ensure grafana is installed
   pacman: name=grafana state=installed
   become: yes
@@ -18,40 +10,12 @@
 
 - name: ensure integrity of grafana configuration
   template:
-    src=etc/grafana/grafana.ini.j2
-    dest="{{ grafana_conf_file }}"
-    owner="{{ grafana_user }}"
-    group="{{ grafana_group }}"
-    mode=0644
+    src=files/grafana.ini
+    dest="/etc/grafana.ini"
+    mode=0777
   become: yes
   notify: restart grafana
   tags: configuration
-
-- name: ensure integrity of grafana configuration
-  template:
-    src=etc/default/grafana-server.j2
-    dest=/etc/default/grafana-server
-    owner="{{ grafana_user }}"
-    group="{{ grafana_group }}"
-    mode=0644
-  become: yes
-  notify: restart grafana
-  tags: configuration
-
-- name: ensure grafana directories ownership and permissions
-  file:
-    path="{{ item }}"
-    owner="{{ grafana_user }}"
-    group="{{ grafana_group }}"
-    mode=0755
-    state=directory
-  become: yes
-  with_items:
-    - grafana_dir_conf
-    - grafana_dir_data
-    - grafana_dir_home
-    - grafana_dir_log
-    - grafana_dir_plugins
 
 - name: ensure grafana is running and enabled to start on boot
   service:
