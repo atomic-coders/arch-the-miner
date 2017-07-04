@@ -162,4 +162,4 @@
     validate: "{{ prometheus_daemon_dir }}/promtool check-rules %s"
   with_items: '{{ prometheus_rule_files | default([]) }}'
   notify:
-    - reload prometheus
+    - restart prometheus

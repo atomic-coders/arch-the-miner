@@ -1,0 +1,26 @@
+---
+# file: tasks/main.yml
+# Top-level installer for Prometheus.
+#
+# @see https://github.com/prometheus/prometheus
+# @see http://prometheus.io/docs/introduction/getting_started/
+#
+
+- name: create Prometheus group
+  group: name={{ prometheus_group }}  state=present
+
+- name: create Prometheus user
+  user:
+    name: "{{ prometheus_user }}"
+    group: "{{ prometheus_group }}"
+    createhome: no
+    shell: /sbin/nologin
+    comment: "Prometheus User"
+    state: present
+
+- name: install helper utility "gosu"
+  include: install-gosu.yml
+
+- name: install node-exporter
+  include: install-node-exporter.yml
+

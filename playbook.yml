@@ -4,6 +4,12 @@
   roles:
     - ethminer
 
+- name: Setup Monitoring Nodes
+  become: true
+  hosts: miners
+  roles:
+    - node-exporter
+
 - name: Setup Monitoring
   become: true
   hosts: prometheus
