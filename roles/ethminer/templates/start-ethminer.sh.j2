@@ -1,2 +1,2 @@
 #!/bin/sh
-~/ethminer/bin/./ethminer --cuda-parallel-hash 8 -U -S {{ pool_host }} -O {{ pool_user }}
+~/ethminer/bin/./ethminer --cuda-parallel-hash 8 -U -S {{ pool_host }} -O {{ pool_user_address }}.{{ ansible_hostname }}/{{ pool_user_email }}
