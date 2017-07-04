@@ -2,20 +2,8 @@
 - 
     hosts: all
     tasks:
-    - name: Install vim
-      pacman: name=vim state=installed
-      become: yes
-
-    - name: Install netadata
-      pacman: name=netdata state=installed
-      become: yes
-
-    - name: Install nvidia
-      pacman: name=nvidia state=installed
-      become: yes
-
-    - name: Install cuda
-      pacman: name=cuda state=installed
+    - name: Install base packages
+      pacman: name=vim,netdata,nvidia,cuda state=installed
       become: yes
 
     - name: Enable and start netdata service
@@ -42,11 +30,31 @@
         dest: ~/ethminer
         remote_src: True
 
-    - name: Reboot the server
-      shell: sleep 2 && shutdown -r now "Reboot after installation"
-      async: 1
-      poll: 0
+    - name: Copy start ethminer script
+      template:
+        src: templates/start-ethminer.sh.j2
+        mode: 0777
+        dest: ~/start-ethminer.sh
+
+    - name: Copy ethminer service
+      template:
+        src: templates/ethminer.service.j2
+        dest: /etc/systemd/user/ethminer.service
       become: yes
 
-    - name: Wait for the server
-      local_action: wait_for host={{ ansible_default_ipv4.address }} port=22 state=started delay=10 timeout=120
+    - name: Enable and start ethminer service
+      systemd:
+        name: ethminer
+        enabled: yes
+        state: started
+        user: yes
+        daemon_reload: yes
+
+    # - name: Reboot the server
+    #   shell: sleep 2 && shutdown -r now "Reboot after installation"
+    #   async: 1
+    #   poll: 0
+    #   become: yes
+
+    # - name: Wait for the server
+    #   local_action: wait_for host={{ ansible_default_ipv4.address }} port=22 state=started delay=10 timeout=120

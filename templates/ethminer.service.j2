@@ -1,0 +1,10 @@
+[Unit]
+Description=Ethminer
+
+[Service]
+ExecStart={{ ansible_env.HOME }}/start-ethminer.sh
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
