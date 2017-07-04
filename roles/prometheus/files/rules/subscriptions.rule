@@ -1,8 +1,0 @@
-ALERT SubscriptionsNotSent
-  IF absent(la_mail_sent_time_seconds{job="production",template="subscriptionTemplateNg"}) or (time() - la_mail_sent_time_seconds{job="production",template="subscriptionTemplateNg"}) / 60 / 60 > 72
-  FOR 1m
-  LABELS { severity = "page" }
-  ANNOTATIONS {
-    summary = "Subscription mails are not sent",
-    description = "Subscriptions mails have not been sent for more than 3 days.",
-  }
