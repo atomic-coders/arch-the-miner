@@ -1,0 +1,4 @@
+prometheus_alertmanager_url: http://localhost:9093
+prometheus_rule_files:
+  - up.rule
+  - subscriptions.rule

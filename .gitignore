@@ -1,1 +1,4 @@
-playbook.retry
+*.retry
+inventory
+ssh-keys/
+.vscode/

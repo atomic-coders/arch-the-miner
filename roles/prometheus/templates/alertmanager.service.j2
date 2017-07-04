@@ -1,0 +1,15 @@
+[Unit]
+Description=Alertmanager
+After=network.target auditd.service
+
+[Service]
+Type=simple
+User={{ prometheus_group }}
+Group={{ prometheus_group }}
+ExecStart={{ prometheus_alertmanager_daemon_dir }}/alertmanager -config.file="{{ prometheus_config_path }}/alertmanager.yml" \
+            -storage.path="{{ prometheus_alertmanager_db_path }}"
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

@@ -1,60 +1,22 @@
 ---
-- 
-    hosts: all
-    tasks:
-    - name: Install base packages
-      pacman: name=vim,netdata,nvidia,cuda state=installed
-      become: yes
+- name: Setup Ethminer
+  hosts: miners
+  roles:
+    - ethminer
 
-    - name: Enable and start netdata service
-      systemd:
-        name: netdata
-        enabled: yes
-        state: started
-      become: yes
+- name: Setup Monitoring
+  become: true
+  hosts: prometheus
+  roles:
+    - prometheus
+    - grafana
+    - nginx
 
-    - name: Create ethminer dir
-      file:
-        path: ~/ethminer
-        state: directory
+# - name: Reboot the server
+#   shell: sleep 2 && shutdown -r now "Reboot after installation"
+#   async: 1
+#   poll: 0
+#   become: yes
 
-    - name: Download ethminer
-      get_url:
-        url: https://github.com/ethereum-mining/ethminer/releases/download/v0.11.0rc1/ethminer-0.11.0rc1-Linux.tar.gz
-        dest: ~/ethminer/ethminer.tar.gz
-        checksum: sha256:f96137526dfb7dfe161ce44f052b010b277047c1f48ed0e439b5ff246b398cad
-
-    - name: Extract ethminer
-      unarchive:
-        src: ~/ethminer/ethminer.tar.gz
-        dest: ~/ethminer
-        remote_src: True
-
-    - name: Copy start ethminer script
-      template:
-        src: templates/start-ethminer.sh.j2
-        mode: 0777
-        dest: ~/start-ethminer.sh
-
-    - name: Copy ethminer service
-      template:
-        src: templates/ethminer.service.j2
-        dest: /etc/systemd/user/ethminer.service
-      become: yes
-
-    - name: Enable and start ethminer service
-      systemd:
-        name: ethminer
-        enabled: yes
-        state: started
-        user: yes
-        daemon_reload: yes
-
-    # - name: Reboot the server
-    #   shell: sleep 2 && shutdown -r now "Reboot after installation"
-    #   async: 1
-    #   poll: 0
-    #   become: yes
-
-    # - name: Wait for the server
-    #   local_action: wait_for host={{ ansible_default_ipv4.address }} port=22 state=started delay=10 timeout=120
+# - name: Wait for the server
+#   local_action: wait_for host={{ ansible_default_ipv4.address }} port=22 state=started delay=10 timeout=120

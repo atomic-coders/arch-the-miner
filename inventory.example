@@ -1,0 +1,7 @@
+[miners]
+host1
+host2
+host3
+
+[prometheus]
+host1

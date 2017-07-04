@@ -1,0 +1,20 @@
+- name: Install nginx
+  pacman: name=nginx state=installed
+  become: yes
+
+- name: Stat nginx config directory
+  stat: path=/etc/nginx
+  register: nginx_stat
+
+- name: Create nginx etc folder
+  file: path=/etc/nginx state=directory
+  when: nginx_stat.stat.exists == False
+
+- name: Uploading nginx configuration
+  copy: src=files/nginx.conf dest=/etc/nginx/nginx.conf
+
+- name: Enable nginx service
+  command: systemctl enable nginx.service
+
+- name: Start nginx service
+  command: systemctl restart nginx.service
