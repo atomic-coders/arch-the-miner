@@ -2,3 +2,4 @@
 inventory
 ssh-keys/
 .vscode/
+play.sh
