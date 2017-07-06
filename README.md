@@ -13,6 +13,12 @@ Node:
 	Defaults:your_username      !authenticate
 ```
 
+4. Enable user lingering (to enable service auto start)
+
+```
+loginctl enable-linger username
+```
+
 Provisioner:
 1. Use `inventory.example` file as a template for your `inventory`.
 
