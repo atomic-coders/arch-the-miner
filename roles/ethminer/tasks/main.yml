@@ -1,5 +1,5 @@
 - name: Install base packages
-  pacman: name=vim,netdata,nvidia,cuda state=installed
+  pacman: name=vim,netdata,nvidia,cuda,libcurl-compat,opencl-headers state=installed
   become: yes
 
 - name: Enable and start netdata service
