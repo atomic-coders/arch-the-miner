@@ -14,4 +14,5 @@ receivers:
       - send_resolved: true
         api_url: 'https://hooks.slack.com/services/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'
         channel: '#dafarm'
-        text: "{{ .CommonAnnotations.summary }}"
+        title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
+        text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
