@@ -1,5 +1,5 @@
 - name: Install base packages
-  pacman: name=vim,netdata,nvidia,cuda,libcurl-compat,opencl-headers state=installed
+  pacman: name=htop,vim,netdata,nvidia,cuda,libcurl-compat,opencl-headers state=installed
   become: yes
 
 - name: Enable and start netdata service
@@ -37,6 +37,10 @@
     src: templates/ethminer.service.j2
     dest: /etc/systemd/user/ethminer.service
   become: yes
+
+- name: Loginctl config
+  become: yes
+  command: sudo loginctl enable-linger {{username}}
 
 - name: Enable and start ethminer service
   systemd:
