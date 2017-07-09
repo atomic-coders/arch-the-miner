@@ -1,0 +1,10 @@
+[Unit]
+Description=Nvidia Exporter
+
+[Service]
+ExecStart=/usr/bin/python3 {{ ansible_env.HOME }}/nvidia-exporter/main.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

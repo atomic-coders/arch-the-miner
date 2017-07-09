@@ -1,3 +1,5 @@
 prometheus_alertmanager_url: http://localhost:9093
 prometheus_rule_files:
+  - temperature.rule
   - up.rule
+  - fan.rule

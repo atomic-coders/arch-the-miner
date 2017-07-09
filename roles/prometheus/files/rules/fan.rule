@@ -1,0 +1,8 @@
+ALERT FanSpeed
+  IF gpu_fan_speed_percent < 5 or gpu_fan_speed_percent > 80
+  FOR 1m
+  LABELS { severity = "page" }
+  ANNOTATIONS {
+    summary = "Instance {{ $labels.instance }} GPU {{ $labels.gpu_index }} has bad fan speed {{ $value }}%",
+    description = "Instance {{ $labels.instance }} GPU {{ $labels.gpu_index }} has bad fan speed {{ $value }}%",
+  }

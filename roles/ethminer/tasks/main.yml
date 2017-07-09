@@ -1,5 +1,11 @@
 - name: Install base packages
-  pacman: name=htop,vim,netdata,nvidia,cuda,libcurl-compat,opencl-headers state=installed
+  pacman: name=htop,vim,netdata,nvidia,cuda,libcurl-compat,opencl-headers,python-pip state=installed
+  become: yes
+
+- name: Install Python packages
+  pip:
+    name: prometheus_client,nvidia-ml-py3 
+    executable: pip3
   become: yes
 
 - name: Enable and start netdata service
@@ -8,6 +14,27 @@
     enabled: yes
     state: started
   become: yes
+
+- name: Nvidia Prometheus exporter
+  git:
+    repo: 'https://github.com/atomic-coders/nvidia-exporter.git'
+    dest: ~/nvidia-exporter
+    clone: yes
+    update: yes
+
+- name: Copy Nvidia Exporter service
+  template:
+    src: templates/nvidia-exporter.service.j2
+    dest: /etc/systemd/user/nvidia-exporter.service
+  become: yes
+
+- name: Enable and start Nvidia Exporter service
+  systemd:
+    name: nvidia-exporter
+    enabled: yes
+    state: started
+    user: yes
+    daemon_reload: yes
 
 - name: Create ethminer dir
   file:

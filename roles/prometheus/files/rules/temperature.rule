@@ -1,0 +1,8 @@
+ALERT GPUTemperature
+  IF gpu_temperature > 80
+  FOR 1m
+  LABELS { severity = "page" }
+  ANNOTATIONS {
+    summary = "Instance {{ $labels.instance }} GPU {{ $labels.gpu_index }} has high temperature: {{ $value }}C",
+    description = "Instance {{ $labels.instance }} GPU {{ $labels.gpu_index }} has high temperature: {{ $value }}C",
+  }

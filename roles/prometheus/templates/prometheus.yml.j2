@@ -33,6 +33,16 @@ scrape_configs:
         - {{ host }}:9100
         {% endfor %}
 
+  - job_name: 'miners_gpu'
+    metrics_path: '/'
+    scrape_interval: 10s
+    scrape_timeout:  10s
+    static_configs:
+      - targets:
+        {% for host in groups['miners'] %}
+        - {{ host }}:9080
+        {% endfor %}
+
   - job_name: "node"
     file_sd_configs:
       - files:
