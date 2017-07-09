@@ -16,4 +16,3 @@ receivers:
         channel: '#dafarm'
         title: {%raw%}"{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"{%endraw%}
 
-        text: {%raw%}"{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"{%endraw%}
