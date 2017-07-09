@@ -14,3 +14,4 @@ receivers:
       - send_resolved: true
         api_url: 'https://hooks.slack.com/services/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'
         channel: '#dafarm'
+        text: "{{ .CommonAnnotations.summary }}"
