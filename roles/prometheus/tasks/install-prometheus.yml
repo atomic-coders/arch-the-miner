@@ -163,3 +163,5 @@
   with_items: '{{ prometheus_rule_files | default([]) }}'
   notify:
     - restart prometheus
+    - restart node_exporter
+    - restart alertmanager
