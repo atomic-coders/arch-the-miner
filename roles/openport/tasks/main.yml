@@ -1,0 +1,53 @@
+- name: Install dependencies
+  pacman: name=perl-io-string,perl-timedate,perl-io-string,perl-test-pod state=installed
+  become: yes
+
+- name: AUR package
+  get_url:
+    url: https://aur.archlinux.org/cgit/aur.git/snapshot/dpkg.tar.gz
+    dest: /home/{{ username }}/dpkg.tar.gz
+
+- name: Extracting AUR package
+  unarchive:
+    remote_src: yes
+    src: /home/{{ username }}/dpkg.tar.gz
+    dest: /home/{{ username }}/
+
+- stat: path=/home/{{ username }}/dpkg/dpkg-1.18.18-2-x86_64.pkg.tar
+  register: dpkg_package
+
+- name: Making
+  command: makepkg
+  args:
+    chdir: /home/{{ username }}/dpkg
+  when: dpkg_package.stat.exists == False
+
+- name: Installing dpkg
+  command: pacman --noconfirm -U /home/{{ username }}/dpkg/dpkg-1.18.18-2-x86_64.pkg.tar
+  become: yes
+
+- name: Download openport deb
+  get_url:
+    url: https://openport.io/download/debian64/latest.deb
+    dest: ~/openport-latest.deb
+
+- name: Install openport
+  command: dpkg -i /home/{{ username }}/openport-latest.deb
+  become: yes
+
+# - name: Create client
+#   command: /usr/bin/openport --register-key {{ openport_key }} --name {{ ansible_hostname }}
+
+- name: Copy openport service
+  template:
+    src: templates/openport.service.j2
+    dest: /etc/systemd/system/openport.service
+  become: yes
+
+- name: Enable and start openport service
+  systemd:
+    name: openport
+    enabled: yes
+    state: started
+    daemon_reload: yes
+  become: yes

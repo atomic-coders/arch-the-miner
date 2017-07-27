@@ -1,0 +1,10 @@
+[Unit]
+Description=Openport
+
+[Service]
+ExecStart=/usr/bin/openport 22
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

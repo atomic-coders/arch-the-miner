@@ -18,6 +18,11 @@
     - grafana
     - nginx
 
+- name: Setup Jump host
+  hosts: jumphost
+  roles:
+    - { role: openport, when: openport_key is defined }
+
 # - name: Reboot the server
 #   shell: sleep 2 && shutdown -r now "Reboot after installation"
 #   async: 1

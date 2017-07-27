@@ -3,3 +3,4 @@ inventory
 ssh-keys/
 .vscode/
 play.sh
+connect.sh
