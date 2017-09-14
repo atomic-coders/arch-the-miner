@@ -43,9 +43,9 @@
 
 - name: Download ethminer
   get_url:
-    url: https://github.com/ethereum-mining/ethminer/releases/download/v0.11.0/ethminer-0.11.0-Linux.tar.gz
+    url: https://github.com/ethereum-mining/ethminer/releases/download/v0.12.0rc3/ethminer-0.12.0rc3-Linux.tar.gz
     dest: ~/ethminer/ethminer.tar.gz
-    checksum: sha256:b4219dd45d602430b062cc830d2bc6fa065ab82bdbbc43f3deb165cc7001143b
+    checksum: sha256:1a6cf70f66ec8d8cede973abef33a08d08622925598b781359284e4f711f6e3d
 
 - name: Extract ethminer
   unarchive:

@@ -13,7 +13,7 @@
     src: /home/{{ username }}/dpkg.tar.gz
     dest: /home/{{ username }}/
 
-- stat: path=/home/{{ username }}/dpkg/dpkg-1.18.18-2-x86_64.pkg.tar
+- stat: path=/home/{{ username }}/dpkg/dpkg-1.18.24-2-x86_64.pkg.tar
   register: dpkg_package
 
 - name: Making
@@ -23,7 +23,7 @@
   when: dpkg_package.stat.exists == False
 
 - name: Installing dpkg
-  command: pacman --noconfirm -U /home/{{ username }}/dpkg/dpkg-1.18.18-2-x86_64.pkg.tar
+  command: pacman --noconfirm -U /home/{{ username }}/dpkg/dpkg-1.18.24-2-x86_64.pkg.tar
   become: yes
 
 - name: Download openport deb

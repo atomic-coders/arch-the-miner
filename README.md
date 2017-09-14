@@ -20,6 +20,9 @@ Provisioner:
 ```
   ansible-playbook playbook.yml -i inventory --extra-vars "pool_host=eth-eu1.nanopool.org:9999 pool_user_address=0xd32AbCebFFc1F436Ffa19fA01a7504c15a1B0923 pool_user_email=maciej.rosiek@gmail.com"
 ```
+```
+  ansible-playbook playbook.yml -i inventory --extra-vars "pool_host=eth-eu1.nanopool.org:9999 pool_user_address=0xd32AbCebFFc1F436Ffa19fA01a7504c15a1B0923 pool_user_email=maciej.rosiek@gmail.com username=mrosiek"
+```
 
 Monitoring endpoints:
 	- Prometheus: `[prometheus]/`
